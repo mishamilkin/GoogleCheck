@@ -13,9 +13,13 @@ class C_Pars extends C_Base{
         $res = $model->getData();
 
         $rc = new RollingCurl(function($response, $info, $request){
+			$path = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=1&q=site:";
             $res = json_decode($response, true);
+			$data = array();
             if( !empty($res['responseData']['results'])){
-                $this->data[] = str_replace($this->path , "", $info['url']);
+                $data[] = str_replace($path , "", $info['url']);
+				$model = new Main(sPDO::getConnection());
+				$model->updateData($data);
             }
         });
 		$count = count($res);
@@ -25,10 +29,6 @@ class C_Pars extends C_Base{
             $rc->add($request);
         }
         $rc->execute();
-
-        if(!empty($this->data)){
-            $model->updateData($this->data);
-        }
     }
 
     protected function OnOutput(){
