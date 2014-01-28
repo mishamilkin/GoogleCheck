@@ -20,6 +20,7 @@ class C_Pars extends C_Base{
                 $data[] = str_replace($path , "", $info['url']);
 				$model = new Main(sPDO::getConnection());
 				$model->updateData($data);
+				unset($model);
             }
         });
 		$count = count($res);
