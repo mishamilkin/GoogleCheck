@@ -18,7 +18,8 @@ class C_Pars extends C_Base{
                 $this->data[] = str_replace($this->path , "", $info['url']);
             }
         });
-        $rc->window_size = count($res);
+		$count = count($res);
+        $rc->window_size = $count>100?100:$count;
         foreach ($res as $v) {
             $request = new RollingCurlRequest($this->path.$v['domain']);
             $rc->add($request);
