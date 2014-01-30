@@ -8,13 +8,13 @@ switch ($_GET['c']){
     case 'stat':
         $controller = new C_Stat();
         break;
-	case 'add':
-		$controller = new C_Add();
-		break;
+    case 'add':
+	$controller = new C_Add();
+	break;
     case 'pars':
         $controller = new C_Pars();
         break;
-	default:
-		$controller = new C_Index();
+    default:
+	$controller = new C_Index();
 }
 $controller->Request();
