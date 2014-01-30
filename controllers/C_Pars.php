@@ -8,19 +8,19 @@ class C_Pars extends C_Base{
     }
 
     protected function OnInput(){
-		parent::OnInput();
+	parent::OnInput();
         $model = new Main(sPDO::getConnection());
         $res = $model->getData();
         $path = $this->path;
         $rc = new RollingCurl(function($response, $info, $request) use ($model, $path){
             $res = json_decode($response, true);
-			$data = array();
+	    $data = array();
             if( !empty($res['responseData']['results'])){
                 $data[] = str_replace($path , "", $info['url']);
-				$model->updateData($data);
+		$model->updateData($data);
             }
         });
-		$count = count($res);
+	$count = count($res);
         $rc->window_size = $count>100?100:$count;
         foreach ($res as $v) {
             $request = new RollingCurlRequest($this->path.$v['domain']);
@@ -29,6 +29,5 @@ class C_Pars extends C_Base{
         $rc->execute();
     }
 
-    protected function OnOutput(){
-    }
+    protected function OnOutput(){}
 }
