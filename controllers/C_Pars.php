@@ -11,16 +11,13 @@ class C_Pars extends C_Base{
 		parent::OnInput();
         $model = new Main(sPDO::getConnection());
         $res = $model->getData();
-
-        $rc = new RollingCurl(function($response, $info, $request){
-			$path = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=1&q=site:";
+        $path = $this->path;
+        $rc = new RollingCurl(function($response, $info, $request) use ($model, $path){
             $res = json_decode($response, true);
 			$data = array();
             if( !empty($res['responseData']['results'])){
                 $data[] = str_replace($path , "", $info['url']);
-				$model = new Main(sPDO::getConnection());
 				$model->updateData($data);
-				unset($model);
             }
         });
 		$count = count($res);

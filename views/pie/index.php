@@ -26,6 +26,7 @@
         pie(placeholder,data);
 	});
     function pie(placeholder, data){
+        if(data=='') return false;
         placeholder.unbind();
         $.plot(placeholder, data, {
             series: {
